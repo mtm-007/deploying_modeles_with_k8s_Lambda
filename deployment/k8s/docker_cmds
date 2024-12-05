@@ -1,0 +1,36 @@
+serving_default
+input_2 - input 
+dense_1 - output
+
+
+
+docker build -t zm-model:xception-v4-001 -f image-model.dockerfile .
+
+docker run -it --rm \
+-p 8500:8500 \
+zm-model:xception-v4-001
+
+docker build -t zm-gateway:002 -f image-gateway.dockerfile . 
+
+docker run -it --rm \
+-p 9696:9696 \
+zm-gateway:002
+
+kind load docker-image <image_name>
+kubectl apply -f <yaml file name>
+kubectl port-forward <pod name> 8500:8500 
+
+kubectl exec -it ping-deployment-86d6dcd98-44jmp -- bash
+kubectl delete -f deployment.yaml 
+deployment.apps "ping-deployment" deleted
+kubectl logs <pod name>
+
+kind create cluster --name kind
+kind delete cluster --name kind
+
+eks commands
+eksctl create cluster -f eks-config.yaml 
+869935103158.dkr.ecr.us-west-2.amazonaws.com/zm-mle-k8s-images
+
+default vpc is needed for aws if deleted it wont work, plus the vpc will create security group
+aws ec2 create-default-vpc
